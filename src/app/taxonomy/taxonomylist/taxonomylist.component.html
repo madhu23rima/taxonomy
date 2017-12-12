@@ -1,0 +1,57 @@
+<div class="row">
+    <h2> Items ({{count}})</h2>
+    <button class="btn btn-primary"   routerLink="add" >Create</button>
+    <hr> 
+    <app-pagination  [allItems]="taxonomyItemList" (pagination) ="onPageChange($event)"></app-pagination>
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-md-1">
+                <h4>Action</h4>
+              </div>
+            <div class="col-md-1">
+              <h4>Id</h4>
+            </div>
+            <div class="col-xs-2">
+              <h4>Type</h4>
+            </div>
+            <div class="col-xs-1">
+              <h4>Code</h4>
+            </div>
+            <div class="col-xs-4">
+              <h4>Description</h4>
+            </div>
+            <div class="col-xs-1">
+              <h4>IsActive</h4>
+            </div>
+          </div>
+    <div>
+    <div class="col-md-12">
+      <div *ngFor="let item of displayItemList" class="list-group">
+  
+        <div class="row" >
+         
+            <div class="col-md-1 btn-group" >
+                <button type="button" class="btn btn-default btn"><i class="glyphicon glyphicon-pencil" [routerLink]= [item.Id] ></i></button>  
+                <!-- <button type="button" class="btn btn-default btn"><i class="glyphicon glyphicon-trash"></i></button>  -->
+              </div>
+              <div class="col-md-1">              
+                  <span>{{item.Id}}</span>
+                
+                </div>
+          <div class="col-xs-2">
+            <p>{{item.Type}}</p>
+          </div>
+          <div class="col-xs-1">
+            <p>{{item.Code}}</p>
+          </div>
+          <div class="col-xs-4">
+            <p>{{item.Description}}</p>
+          </div>
+          <div class="col-xs-1">
+            <p>{{item.IsActive}}</p>
+          </div>
+        </div>
+      </div>
+    
+    </div>
+    </div>
