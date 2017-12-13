@@ -7,15 +7,14 @@ import { PaginationComponent } from './pagination/pagination.component';
 import { TaxonomyComponent } from './taxonomy/taxonomy.component';
 import { TaxonomylistComponent } from './taxonomy/taxonomylist/taxonomylist.component';
 import { TaxonomyeditComponent } from './taxonomy/taxonomyedit/taxonomyedit.component';
+import { HttpClientModule} from '@angular/common/http';
+//import { environment} from '../environments/environment';
 
 const routes: Routes=[
   { path: '', redirectTo: '/taxonomylist', pathMatch: 'full' },
   {path: 'taxonomylist', component:TaxonomylistComponent},
   {path: 'taxonomylist/:id', component:TaxonomyeditComponent},
-  {path: 'taxonomylist/add', component:TaxonomyeditComponent}
-
-
- 
+  {path: 'taxonomylist/add', component:TaxonomyeditComponent} 
 ]
 
 
@@ -32,6 +31,7 @@ const routes: Routes=[
     BrowserModule,
     FormsModule,
     ReactiveFormsModule,
+    HttpClientModule,  
     RouterModule.forRoot(routes)
   ],
   exports:[RouterModule],

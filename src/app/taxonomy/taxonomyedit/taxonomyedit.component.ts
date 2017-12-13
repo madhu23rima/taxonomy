@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import {FormGroup,FormControl} from '@angular/forms';
-import { ActivatedRoute, Router,Params } from '@angular/router';
-import {TaxonomyService} from  '../taxonomy.service'
+import { FormGroup, FormControl } from '@angular/forms';
+import { ActivatedRoute, Router, Params } from '@angular/router';
+import { TaxonomyService } from '../taxonomy.service'
 import { ITaxonomyItem } from '../taxonomy.model'
 @Component({
   selector: 'app-taxonomyedit',
@@ -9,50 +9,68 @@ import { ITaxonomyItem } from '../taxonomy.model'
   styleUrls: ['./taxonomyedit.component.css']
 })
 export class TaxonomyeditComponent implements OnInit {
- isEdit:boolean =false;
- id:number;
- taxonomyeditForm: FormGroup;
-  constructor(private router:Router , private route: ActivatedRoute, private taxonomyService: TaxonomyService) { }
+  isEdit: boolean = false;
+  id: number;
+  taxonomyeditForm: FormGroup;
+  hasError:boolean= false;
+  constructor(private router: Router, private route: ActivatedRoute, private taxonomyService: TaxonomyService) { console.log('inside constructor ') }
 
   ngOnInit() {
-    
-    let item:ITaxonomyItem;
-    let type=''
-    let code=null
-    let desc=''
-    let isactive=true;
-    this.id=null
 
-    this.route.params.subscribe( (param:Params ) => { 
-      let tid= +param['id']
-      console.log( 'id passed to Edit component is ' + tid);
-      if(tid){
-        this.isEdit=true;
-        item=this.taxonomyService.get(tid);
-        this.id=item.Id;
-        type=item.Type;
-        code=item.Code;
-        desc=item.Description;
-        isactive=item.IsActive;
-       
+
+    let type = ''
+    let code = null
+    let desc = ''
+    let isactive = true;
+    this.id = 0
+
+    this.route.params.subscribe((param: Params) => {
+      let tid = +param['id']
+
+      if (tid) {
+        this.isEdit = true;
+        this.taxonomyService.get(tid).subscribe(
+          (data) => {
+            let item = data;
+            this.id = item.Id;
+            this.setFormElements(item.Type, item.Code, item.Description, item.IsActive)
+          },
+          (err) =>{ this.setFormElements(type, code, desc, isactive);}
+        );
       }
-      else{
-        this.isEdit=false;
-        //this.taxonomyeditForm.reset();
-      }      
+      else {
+        this.isEdit = false;
+        this.id=0;
+        this.setFormElements(type, code, desc, isactive)
+      }
     });
 
-    this.taxonomyeditForm = new FormGroup({
-      type: new FormControl(type),
-      code:new FormControl(code),
-      description: new FormControl(desc),
-      activate: new FormControl(isactive)
-     });
+    this.setFormElements(type, code, desc, isactive);
+
   }
 
-  onSubmit(){
-    console.log(this.taxonomyeditForm);
+  private setFormElements(type: string, code: number, desc: string, isactive: boolean) {
+    this.taxonomyeditForm = new FormGroup({
+      type: new FormControl(type),
+      code: new FormControl(code),
+      description: new FormControl(desc),
+      activate: new FormControl(isactive)
+    });
+  }
+  onSubmit() {
     
+    let id=this.id;
+    let type=this.taxonomyeditForm.value['type'];
+    let code=this.taxonomyeditForm.value.code;
+    let desc =this.taxonomyeditForm.value.description;
+    let isactive=this.taxonomyeditForm.value.activate;
+    this.hasError=false;
+    this.taxonomyService.save( { Id:  this.id, Type: type,
+       Code:code, Description:desc,  IsActive: isactive}).subscribe(
+         ()=>{ this.router.navigate(['../'])},
+         (err) => { this.hasError =true;}
+       );
+
   }
 
 }

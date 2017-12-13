@@ -1,5 +1,6 @@
 <div class="col-md-12">
 <h3>Taxonomy - {{isEdit? "Edit" : "Create"}}</h3>
+<em *ngIf="hasError" style="color:Tomato;">Error saving data</em>
 <form (ngSubmit)="onSubmit()"   [formGroup]="taxonomyeditForm" >
  <div class="form-group">
    <label for="type">Type</label>

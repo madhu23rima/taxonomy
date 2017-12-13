@@ -1,8 +1,8 @@
 <div class="row">
-    <h2> Items ({{count}})</h2>
+    <h2> Items ({{totalTaxonomyItems}})</h2>
     <button class="btn btn-primary"   routerLink="add" >Create</button>
     <hr> 
-    <app-pagination  [allItems]="taxonomyItemList" (pagination) ="onPageChange($event)"></app-pagination>
+    <app-pagination  [allItemsLength]=[totalTaxonomyItems] (pagination) ="onPageChange($event)"></app-pagination>
     <div class="col-md-12">
         <div class="row">
             <div class="col-md-1">

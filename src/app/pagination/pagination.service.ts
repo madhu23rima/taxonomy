@@ -1,6 +1,6 @@
 import {Page} from '../pagination/page.model'
 export class PagerService {
-    getPager(totalItems: number, currentPageNumber: number = 1, pageSize: number = 5, navigationPages:number= 5) {
+    getPager(totalItems: number, currentPageNumber: number = 1, pageSize: number = 10, navigationPages:number= 5) {
         // calculate total pages
         let totalPages = Math.ceil(totalItems / pageSize);
  
