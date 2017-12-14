@@ -29,7 +29,6 @@ export class TaxonomylistComponent implements OnInit {
     );
 
   }
-
   
 
   onPageChange(pagination: { startIndex: number, endIndex: number }) {  

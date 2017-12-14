@@ -30,4 +30,11 @@ export class PaginationComponent implements OnInit {
     this.pagination.emit({startIndex:this.pager.startIndex,endIndex:this.pager.endIndex})
    
   }
+  update(pagenumber:number){
+    let pager=this.pagerService.getCurrentPageItemIndexs(this._allItemsLength, pagenumber)
+    this.pager.currentPageNumber=pagenumber;
+    this.pagination.emit({startIndex:pager.startIndex,endIndex:pager.endIndex})
+
+  }
+
 }

@@ -26,7 +26,7 @@ export class PagerService {
                 startPage = currentPageNumber;
                 let remainingpages = totalPages-currentPageNumber
                 if(remainingpages>navigationPages){
-                    endPage =currentPageNumber + (remainingpages - navigationPages);
+                    endPage =currentPageNumber + (navigationPages-1);
                 }
                 else{
                     endPage = currentPageNumber + remainingpages;
@@ -56,4 +56,15 @@ export class PagerService {
         page.pageNumbers=pageNumbers;
         return page;
     }
+
+    getCurrentPageItemIndexs(totalItems: number, currentPageNumber: number = 1, pageSize: number = 10){
+        let startPageIndex = (currentPageNumber - 1) * pageSize;
+        let endPageIndex = Math.min(startPageIndex + pageSize - 1, totalItems - 1);
+        var page = new Page();
+        page.startIndex= startPageIndex;
+        page.endIndex= endPageIndex;
+        return page;
+    }
+
+
 }
