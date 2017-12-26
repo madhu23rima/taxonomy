@@ -29,14 +29,19 @@ export class TaxonomyeditComponent implements OnInit {
 
       if (tid) {
         this.isEdit = true;
-        this.taxonomyService.get(tid).subscribe(
-          (data) => {
-            let item = data;
-            this.id = item.Id;
-            this.setFormElements(item.Type, item.Code, item.Description, item.IsActive)
-          },
-          (err) =>{ this.setFormElements(type, code, desc, isactive);}
-        );
+        // this.taxonomyService.get(tid).subscribe(
+        //   (data) => {
+        //     let item = data;
+        //     this.id = item.Id;
+        //     this.setFormElements(item.Type, item.Code, item.Description, item.IsActive)
+        //   },
+        //   (err) =>{ this.setFormElements(type, code, desc, isactive);}
+        // );
+        var item= this.taxonomyService.getlocal(tid);
+        console.log('item returned from service is' + item.Description);
+        this.id = item.Id;
+        this.setFormElements(item.Type, item.Code, item.Description, item.IsActive);
+        console.log( this.taxonomyeditForm.value.description);
       }
       else {
         this.isEdit = false;
@@ -45,7 +50,6 @@ export class TaxonomyeditComponent implements OnInit {
       }
     });
 
-    this.setFormElements(type, code, desc, isactive);
 
   }
 
@@ -57,19 +61,23 @@ export class TaxonomyeditComponent implements OnInit {
       activate: new FormControl(isactive)
     });
   }
+
   onSubmit() {
     
     let id=this.id;
     let type=this.taxonomyeditForm.value['type'];
-    let code=this.taxonomyeditForm.value.code;
+    let code=+this.taxonomyeditForm.value.code;
     let desc =this.taxonomyeditForm.value.description;
     let isactive=this.taxonomyeditForm.value.activate;
     this.hasError=false;
-    this.taxonomyService.save( { Id:  this.id, Type: type,
-       Code:code, Description:desc,  IsActive: isactive}).subscribe(
-         ()=>{ this.router.navigate(['../'])},
-         (err) => { this.hasError =true;}
-       );
+    // this.taxonomyService.save( { Id:  this.id, Type: type,
+    //    Code:code, Description:desc,  IsActive: isactive}).subscribe(
+    //      ()=>{ this.router.navigate(['../'])},
+    //      (err) => { this.hasError =true;}
+    //    );
+console.log(this.taxonomyeditForm);
+    this.taxonomyService.savelocal({ Id:  this.id, Type: type,
+      Code:code, Description:desc,  IsActive: isactive});
 
   }
 
