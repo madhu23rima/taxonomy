@@ -75,9 +75,10 @@ export class TaxonomyeditComponent implements OnInit {
     //      ()=>{ this.router.navigate(['../'])},
     //      (err) => { this.hasError =true;}
     //    );
-console.log(this.taxonomyeditForm);
     this.taxonomyService.savelocal({ Id:  this.id, Type: type,
       Code:code, Description:desc,  IsActive: isactive});
+
+      this.router.navigate(['../'])
 
   }
 
